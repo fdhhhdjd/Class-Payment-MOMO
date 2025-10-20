@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>MoMo Demo - Pay</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Thanh toán MoMo (Demo)</h1>
+
+    <div class="card">
+      <label>Số tiền (VND)</label>
+      <input id="amount" type="number" value="15000" min="1000" />
+      <label>Ghi chú (orderInfo)</label>
+      <input id="orderInfo" type="text" value="Thanh toan demo SV" />
+      <button id="payBtn">Thanh toán bằng MoMo</button>
+      <p id="status"></p>
+    </div>
+
+    <div class="info">
+      <p>Ghi chú:</p>
+      <ul>
+        <li>Nếu bạn đang trên máy tính: sẽ mở trang MoMo có <strong>QR</strong> — dùng app MoMo trên điện thoại quét để thanh toán.</li>
+        <li>Nếu bạn dùng điện thoại: sẽ tự mở app MoMo (nếu cấu hình và browser cho phép).</li>
+      </ul>
+    </div>
+
+    <div class="debug">
+      <h3>Debug response</h3>
+      <pre id="debugBox"></pre>
+    </div>
+  </div>
+
+  <script>
+    const payBtn = document.getElementById('payBtn');
+    const statusEl = document.getElementById('status');
+    const debugBox = document.getElementById('debugBox');
+
+    payBtn.addEventListener('click', async () => {
+      statusEl.textContent = 'Đang tạo đơn...';
+      const amount = document.getElementById('amount').value;
+      const orderInfo = document.getElementById('orderInfo').value;
+      try {
+        const resp = await fetch('/create-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount, orderInfo, extraData: '' })
+        });
+        const data = await resp.json();
+        debugBox.textContent = JSON.stringify(data, null, 2);
+
+        if (!data.ok) {
+          statusEl.textContent = 'Lỗi tạo đơn: ' + (data.error?.message || JSON.stringify(data.error));
+          return;
+        }
+        statusEl.textContent = 'Tạo đơn thành công. Redirecting...';
+
+        // payUrl có thể nằm trong data.momo.payUrl hoặc data.momo.data.payUrl => inspect
+        const momoResp = data.momo || {};
+        let payUrl = momoResp.payUrl || (momoResp.data && momoResp.data.payUrl) || momoResp.checkoutUrl;
+
+        if (!payUrl) {
+          statusEl.textContent = 'Không tìm thấy payUrl trong response. Kiểm tra debug.';
+          return;
+        }
+
+        // Redirect user to payUrl (browser sẽ chuyển trang hoặc show QR)
+        window.location.href = payUrl;
+
+      } catch (err) {
+        statusEl.textContent = 'Lỗi: ' + (err.message || err);
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
