@@ -1,32 +1,324 @@
-body{
-  font-family: Arial, Helvetica, sans-serif;
-  background: #f7f7fb;
-  margin: 0;
-  padding: 24px;
+:root {
+  /* Bảng màu lấy cảm hứng từ MoMo */
+  --primary-color: #d82d8b; /* Hồng đậm MoMo */
+  --primary-hover: #b52474;
+  --accent-color: #a50064; /* Tím MoMo */
+  --bg-color: #f5f6fd;
+  --text-color: #333e48;
+  --text-secondary: #6b7280;
+  --success-color: #00c853;
+  --error-color: #d32f2f;
+  --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
-.container{
-  max-width: 720px;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg-color);
+  margin: 0;
+  padding: 20px;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.container {
+  max-width: 550px;
   margin: 0 auto;
 }
-h1{ color: #6b0f89; }
-.card{
+
+/* --- Header Branding --- */
+.branding-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Đẩy sang 2 bên cho chuyên nghiệp */
   background: #fff;
-  padding: 18px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  padding: 12px 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom: 35px;
+  border: 1px solid rgba(216, 45, 139, 0.1);
 }
-.card label{ display:block; margin-top:8px; color:#333; }
-.card input{ width:100%; padding:8px 10px; margin-top:6px; margin-bottom:6px; border-radius:6px; border:1px solid #ddd; }
-.card button{
-  margin-top:8px;
-  padding:10px 14px;
+
+.brand-left {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo-wrapper {
+  position: relative;
+  width: 55px;
+  height: 55px;
+}
+
+.logo-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px; /* Bo nhẹ kiểu App Icon */
+  object-fit: cover;
+  border: 2px solid var(--primary-color);
+  padding: 2px;
+  background: #fff;
+}
+
+.verified-badge {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.channel-name {
+  font-weight: 800;
+  font-size: 1.2rem;
+  /* Hiệu ứng chữ Gradient */
+  background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.5px;
+}
+
+.brand-tagline {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.brand-right .status-badge {
+  background: rgba(0, 200, 83, 0.1);
+  color: var(--success-color);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 1px solid rgba(0, 200, 83, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.brand-right .status-badge::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--success-color);
+  border-radius: 50%;
+  display: inline-block;
+  /* Hiệu ứng nhấp nháy cho video sinh động */
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(0, 200, 83, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 200, 83, 0); }
+}
+
+/* Responsive cho Header */
+@media (max-width: 480px) {
+    .brand-right { display: none; } /* Ẩn bớt bên phải khi màn hình quá nhỏ */
+    .channel-name { font-size: 1rem; }
+}
+
+h1.main-title {
+  text-align: center;
+  color: var(--accent-color);
+  font-size: 1.8rem;
+  margin-bottom: 25px;
+  font-weight: 800;
+}
+
+/* --- Main Card --- */
+.card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: var(--card-shadow);
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.card label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-color);
+  font-size: 0.95rem;
+}
+
+.input-wrapper {
+  position: relative;
+}
+
+.currency-symbol {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  font-weight: 500;
+  pointer-events: none;
+}
+
+.card input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 2px solid #e5e7eb;
+  font-size: 1rem;
+  font-family: inherit;
+  transition: all 0.3s ease;
+  color: var(--text-color);
+  font-weight: 500;
+}
+
+#amount {
+  padding-right: 50px;
+}
+
+.card input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 4px rgba(216, 45, 139, 0.1);
+}
+
+.input-helper {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 6px;
+}
+
+/* Button Styles */
+.btn-pay {
+  width: 100%;
+  padding: 16px;
   border: none;
-  background: #ff6a00;
+  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
   color: white;
-  border-radius: 8px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(216, 45, 139, 0.3);
+}
+
+.btn-pay:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(216, 45, 139, 0.4);
+  filter: brightness(1.1);
+}
+
+.btn-pay:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Loading Spinner */
+.spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 3px solid #fff;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin-right: 10px;
+  display: none;
+}
+
+.btn-pay.loading .spinner {
+  display: block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+#status {
+  margin-top: 20px;
+  text-align: center;
+  font-weight: 600;
+  min-height: 1.5em;
+}
+.status-success { color: var(--success-color); }
+.status-error { color: var(--error-color); }
+
+.info-box {
+  margin-top: 25px;
+  background: #eef2ff;
+  padding: 20px;
+  border-radius: 16px;
+  border-left: 4px solid var(--primary-color);
+}
+.info-box h4 {
+  margin: 0 0 10px 0;
+  color: var(--accent-color);
+  display: flex;
+  align-items: center;
+}
+.info-box h4::before {
+  content: '💡';
+  margin-right: 8px;
+}
+
+.info-box ul { margin: 0; padding-left: 20px; }
+.info-box li { margin-bottom: 8px; }
+
+/* --- Collapsible Debug Section --- */
+.debug-container { margin-top: 30px; }
+
+details.debug-details {
+  background: #1e1e2e;
+  color: #a6accd;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #2a2a3c;
+}
+
+summary.debug-summary {
+  padding: 15px;
   cursor: pointer;
   font-weight: 600;
+  background: #27273a;
+  color: #fff;
 }
-.info{ margin-top:14px; color:#444; }
-.debug{ margin-top:20px; background:#111; color:#fff; padding:12px; border-radius:10px; }
-pre{ white-space:pre-wrap; word-break:break-word; }
+
+.debug-content {
+  padding: 20px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+pre#debugBox {
+  white-space: pre-wrap;
+  word-break: break-word;
+  margin: 0;
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  h1.main-title { font-size: 1.5rem; }
+}

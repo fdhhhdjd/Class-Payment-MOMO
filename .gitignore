@@ -26,6 +26,7 @@ jspm_packages/
 
 # Optional npm cache directory
 .npm
+./public/logo.jpg
 
 # Optional eslint cache
 .eslintcache
